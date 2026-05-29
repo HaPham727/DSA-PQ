@@ -8,8 +8,6 @@
 
 using namespace std;
 
-//int ;
-
 class ArrayPQ
 {
 private:
@@ -22,9 +20,11 @@ public:
 
     void enqueuePacket(Packet p);
 
-    void dequeuePacket();
-    
-    void printArrayPQ();
+    Packet dequeuePacket();
+
+    bool isEmpty();
+
+    //void printArrayPQ();
 };
 
 #endif

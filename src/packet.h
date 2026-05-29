@@ -13,14 +13,24 @@
 
 using namespace std;
 
-inline constexpr int NUMBER_OF_PACKETS = 100;
-inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 100;
+
+inline constexpr unsigned int seed = 12345; 
+inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 99;
 inline constexpr int LIKELIHOOD_OF_PRIORIIZED_DOMAINS = 20; //in percentage (%). AKA how likely it is for a packet to be headed to a prioritzed domain
-//inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 50; //How many domains from 
-inline constexpr int NUMBER_OF_APQ_LEVELS = 10; //How many domains from 
+inline constexpr int NUMBER_OF_APQ_LEVELS = 5; //How many domains from 
 inline constexpr int UNPRIORITIZED = NUMBER_OF_PRIORITIZED_DOMAINS;
-inline constexpr int MAX_RECEIVING_TIME = 10;
-inline constexpr int MAX_PROCESSING_TIME = 100;
+
+//Number of packets in the testCase
+inline constexpr int NUMBER_OF_PACKETS = 10;
+//Maximum time the simulation could run for
+inline constexpr int MAX_SIM_TIME = 10000;
+//Maximum time between times the Router receives messages
+inline constexpr int MAX_RECEIVING_TIME = 20;
+//Maximum time the Router may take to process messages
+inline constexpr int MAX_PROCESSING_TIME = 10;
+
+
+//inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 50; //How many domains from 
 
 
 //Array of websites sorted by their priority rank
@@ -124,13 +134,12 @@ inline array<string, NUMBER_OF_PRIORITIZED_DOMAINS + 1> g_dpl_arr
     "hackernews.ycombinator.com",
     "producthunt.com",
     "kickstarter.com",
-    "indiegogo.com",
     "patreon.com",
     "UNPRIORITIZED"
 };
 
 //Mock hashtable/dictionary of 100 domains and their assigned priority rank from 0 to 99 
-//Lower rank = Higher priority
+//Smaller rank = Higher priority
 inline map<string, int> g_dpl_map
 {
     { "shopee.vn", 0 },
@@ -231,9 +240,8 @@ inline map<string, int> g_dpl_map
     { "hackernews.ycombinator.com", 95 }, 
     { "producthunt.com", 96 }, 
     { "kickstarter.com", 97 }, 
-    { "indiegogo.com", 98 }, 
-    { "patreon.com", 99 }, 
-    { "UNPRIORITIZED", 100 }
+    { "patreon.com", 98 }, 
+    { "UNPRIORITIZED", 99 }
 };
 
 

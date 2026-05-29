@@ -6,37 +6,12 @@ using namespace std;
 
 int Packet::getPriorityLevel()
 {
+    //If Packet's domain is stored as a Prioritized Domain, return its priority level
     if (g_dpl_map.contains(m_domain))
         return (g_dpl_map[m_domain]);
     else
+    //If Packet doesn't have a prioritized domain, give it priority level of 99 (lowest possible)
         return NUMBER_OF_PRIORITIZED_DOMAINS;
-}
-
-//ARRAY-BASED TESTCASE VERSION
-void Packet::generateTestCase(array<Packet, NUMBER_OF_PACKETS>& arr)
-{
-    cout << "Generating test cases";
-    for (int i{}; i < NUMBER_OF_PACKETS; i++)
-    {
-        //Generate random domain which may be prioritized 
-        if (rand() % (100 / LIKELIHOOD_OF_PRIORIIZED_DOMAINS) == 0)
-            arr[i].m_domain = g_dpl_arr[rand() % 100]; 
-        else
-            arr[i].m_domain = g_dpl_arr[100]; //The 100th element in g_dpl_arr is designated unprioritized
-
-        //Generate time Router takes to process (dequeue) request
-        arr[i].m_processingTime = (rand() % 10);
-
-        //Generate timestamp for when the request reaches the Router
-        if (i == 0)
-            arr[i].m_receivingTimestamp = (rand() % 10) + 1;
-        else
-            arr[i].m_receivingTimestamp = (arr[i - 1].m_receivingTimestamp + (rand() % 10) + 1);
-
-        if ((i > 0) && (i % 300 == 0))
-            cout << ".";
-    }
-    cout << "\nDone!\n";
 }
 
 void Packet::generateTestCase(queue<Packet>& q)
@@ -51,9 +26,9 @@ void Packet::generateTestCase(queue<Packet>& q)
 
         //Generate random domain which may or maynot be prioritized 
         if (rand() % (100 / LIKELIHOOD_OF_PRIORIIZED_DOMAINS) == 0)
-            out.m_domain = g_dpl_arr[rand() % 100]; 
+            out.m_domain = g_dpl_arr[rand() % NUMBER_OF_PRIORITIZED_DOMAINS]; 
         else
-            out.m_domain = g_dpl_arr[100]; //The 100th element in g_dpl_arr is designated unprioritized
+            out.m_domain = g_dpl_arr[NUMBER_OF_PRIORITIZED_DOMAINS]; //The 100th element in g_dpl_arr is designated unprioritized
         
         //Generate timestamp for when the request reaches the Router
         if (i == 0)

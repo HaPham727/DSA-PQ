@@ -11,7 +11,7 @@ using namespace std;
 class ArrayPQ
 {
 private:
-    //Store queues of packets in a vector with size = NUMBER_OF_APQ_LEVELS + 1
+    //Store queues of packets in a vector with size = NUMBER_OF_APQ_LEVELS 
     vector<queue<Packet>> m_array;
 
 public:
@@ -23,8 +23,6 @@ public:
     Packet dequeuePacket();
 
     bool isEmpty();
-
-    //void printArrayPQ();
 };
 
 #endif

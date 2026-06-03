@@ -7,13 +7,13 @@ ArrayPQ::ArrayPQ(int capacity)
 
 void ArrayPQ::enqueuePacket(Packet p)
 {
-    if (p.getPriorityLevel() >= 99)
+    if (p.getPriorityLevel() == NUMBER_OF_PRIORITIZED_DOMAINS)
     {
-        m_array[NUMBER_OF_APQ_LEVELS - 1].push(p);
+        m_array[((NUMBER_OF_PRIORITIZED_DOMAINS + 1) / DOMAINS_PER_APQ_LEVEL)].push(p);
     }
     else
     {
-        m_array[p.getPriorityLevel() / (NUMBER_OF_PRIORITIZED_DOMAINS / NUMBER_OF_APQ_LEVELS)].push(p);
+        m_array[p.getPriorityLevel() / DOMAINS_PER_APQ_LEVEL].push(p);
     }
 }
 

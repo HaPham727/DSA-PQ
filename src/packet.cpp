@@ -2,7 +2,18 @@
 
 Packet::Packet() {}
 
-using namespace std;
+using namespace std;   
+
+//<random> test
+std::mt19937_64 gen(seed);
+//Exclusively used for generating processing time
+uniform_int_distribution<int> uniform_rand(0, MAX_PROCESSING_TIME);
+//Exclusively used for generating receiving timestamp
+binomial_distribution<int> binomial_rand(5, 0.5); 
+//Exclusively used for generating domains
+poisson_distribution<int> poisson_rand(98); 
+//binomial_distribution<int> poisson_rand(99, 0.2); 
+//niform_int_distribution<int> poisson_rand(0, NUMBER_OF_PRIORITIZED_DOMAINS);
 
 int Packet::getPriorityLevel()
 {
@@ -25,21 +36,28 @@ void Packet::generateTestCase(queue<Packet>& q)
         Packet out{};
 
         //Generate random domain which may or maynot be prioritized 
-        if (rand() % (100 / LIKELIHOOD_OF_PRIORIIZED_DOMAINS) == 0)
-            out.m_domain = g_dpl_arr[rand() % NUMBER_OF_PRIORITIZED_DOMAINS]; 
+        int domainRand = poisson_rand(gen);
+
+        if (domainRand < 99)
+            out.m_domain = g_dpl_arr[domainRand];
         else
-            out.m_domain = g_dpl_arr[NUMBER_OF_PRIORITIZED_DOMAINS]; //The 100th element in g_dpl_arr is designated unprioritized
+            out.m_domain = g_dpl_arr[NUMBER_OF_PRIORITIZED_DOMAINS];       
         
+        int timestampRand = binomial_rand(gen);
         //Generate timestamp for when the request reaches the Router
         if (i == 0)
-            out.m_receivingTimestamp = ((rand() % (MAX_RECEIVING_TIME - 1)) + 1);
-        else
         {
-            out.m_receivingTimestamp = (prevReceivingTimestamp + (rand() % (MAX_RECEIVING_TIME - 1)) + 1);
+            out.m_receivingTimestamp = (timestampRand % 10) + 1;
             prevReceivingTimestamp = out.m_receivingTimestamp;
         }
+        else
+        {
+            out.m_receivingTimestamp = (prevReceivingTimestamp + (timestampRand % 10) + 1);
+            prevReceivingTimestamp = out.m_receivingTimestamp;
+        }
+
         //Generate time Router takes to process (dequeue) request
-        out.m_processingTime = ((rand() % (MAX_PROCESSING_TIME - 1)) + 1);
+        out.m_processingTime = (uniform_rand(gen) + 1);
 
         q.push(out);
 

@@ -51,22 +51,22 @@ bool HeapPQ::isEmpty()
 //Enqueue Packet into the HeapPQ
 void HeapPQ::enHPQ(Packet k)
 {
-    // Make sure there is still space in the heap
+    //Make sure there is still space in the heap
     if (m_size == m_capacity)
     {
         cout << "MIN HEAP FULL!" << endl;
         return;
     }
 
-    // Increse the amount of elements in the heap
+    //Increse the amount of elements in the heap
     m_size++;
 
-    // enHPQ the new key at the end
+    //enHPQ the new key at the end
     int i = m_size - 1;
     m_heap[i] = k;
 
-    // Fix the min heap property
-    // Moves the element up until i >= parent or root
+    //Fix the min heap property
+    //Moves the element up until i >= parent or root
     while(i != 0 && m_heap[parentIndex(i)].getPriorityLevel() > m_heap[i].getPriorityLevel())
     {
         swap(m_heap[i], m_heap[parentIndex(i)]);
@@ -77,12 +77,6 @@ void HeapPQ::enHPQ(Packet k)
 //Removes the smallest element and fixes the order
 Packet HeapPQ::deHPQ()
 {
-    //Check if the heap is empty [Dont need since empty checks are done when calling these functions]
-    //if (m_size == 0)
-    //{
-    //    cout << "EMPTY HEAP" << endl;
-    //    return -1;
-    //}
     //Check if there is only 1 element
     if (m_size == 1)
     {

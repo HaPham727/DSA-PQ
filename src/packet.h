@@ -13,25 +13,22 @@
 
 using namespace std;
 
-
 inline constexpr unsigned int seed = 12345; 
-inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 99;
+inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 99; //How many domains have their unique Priority level
 inline constexpr int LIKELIHOOD_OF_PRIORIIZED_DOMAINS = 20; //in percentage (%). AKA how likely it is for a packet to be headed to a prioritzed domain
 inline constexpr int NUMBER_OF_APQ_LEVELS = 5; //How many domains from 
+inline constexpr int DOMAINS_PER_APQ_LEVEL = 20;
 inline constexpr int UNPRIORITIZED = NUMBER_OF_PRIORITIZED_DOMAINS;
 
 //Number of packets in the testCase
-inline constexpr int NUMBER_OF_PACKETS = 10;
+inline constexpr int NUMBER_OF_PACKETS = 100;
 //Maximum time the simulation could run for
-inline constexpr int MAX_SIM_TIME = 10000;
+inline constexpr int MAX_SIM_TIME = 1000000000;
 //Maximum time between times the Router receives messages
-inline constexpr int MAX_RECEIVING_TIME = 20;
+inline constexpr int MAX_RECEIVING_GAP = 10;
 //Maximum time the Router may take to process messages
-inline constexpr int MAX_PROCESSING_TIME = 10;
-
-
-//inline constexpr int NUMBER_OF_PRIORITIZED_DOMAINS = 50; //How many domains from 
-
+//The higher ther Max processing time, the more packets get caught in a jam and the less the Normal queue's speed advantage matters
+inline constexpr int MAX_PROCESSING_TIME = 50;
 
 //Array of websites sorted by their priority rank
 inline array<string, NUMBER_OF_PRIORITIZED_DOMAINS + 1> g_dpl_arr 
@@ -138,7 +135,7 @@ inline array<string, NUMBER_OF_PRIORITIZED_DOMAINS + 1> g_dpl_arr
     "UNPRIORITIZED"
 };
 
-//Mock hashtable/dictionary of 100 domains and their assigned priority rank from 0 to 99 
+//Mock hashtable/dictionary of 100 domains and their assigned priority rank from 0 to 98, plus priority rank 99 to represent non-prioritized domains
 //Smaller rank = Higher priority
 inline map<string, int> g_dpl_map
 {
@@ -267,8 +264,6 @@ public:
     int getReceivingTimestamp() {return m_receivingTimestamp;}
     
     int getProcessingTime() {return m_processingTime;}
-
-    static void generateTestCase(array<Packet, NUMBER_OF_PACKETS>& arr);
 
     static void generateTestCase(queue<Packet>& q);
 
